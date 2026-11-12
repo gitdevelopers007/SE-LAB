@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE bookstore SYSTEM "bookstore.dtd">
+<bookstore xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="bookstore.xsd">
+    <book category="programming">
+        <title>Effective Java</title>
+        <author>Joshua Bloch</author>
+        <year>2018</year>
+        <price>45.00</price>
+    </book>
+    <book category="web">
+        <title>Eloquent JavaScript</title>
+        <author>Marijn Haverbeke</author>
+        <year>2021</year>
+        <price>32.50</price>
+    </book>
+    <book category="database">
+        <title>Database System Concepts</title>
+        <author>Abraham Silberschatz</author>
+        <year>2019</year>
+        <price>55.00</price>
+    </book>
+</bookstore>
+
+<!--
+================================================================================
+HOW TO RUN EXPERIMENT 6 IN VS CODE:
+Option 1: Terminal Run (Exact Record Output):
+   cd "Experiment 6 - XML Bookstore DTD and XSD Validation"
+   node validate.js
+
+Option 2: VS Code Extension (Real-time Validation):
+   1. Press Ctrl + Shift + X (Extensions tab).
+   2. Search and install: "XML" (by Red Hat).
+   3. Open this file ("bookstore.xml"). It validates automatically!
+================================================================================
+-->

@@ -1,0 +1,10 @@
+{
+  "name": "experiment-13-react-weather-chartjs",
+  "version": "1.0.0",
+  "description": "Experiment 13 - React Weather Service with graphical Chart.js representation",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["react", "weather-service", "chartjs", "openweathermap"]
+}

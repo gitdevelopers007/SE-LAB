@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Session Tracking</title>
+</head>
+<body>
+    <h2>Session Tracking: Cookies and HttpSession</h2>
+    <p><b>Session ID:</b> <span id="sessId">Loading...</span></p>
+    <p><b>Previous visit cookie:</b> <span id="prevVisit">First visit</span></p>
+    
+    <h3>Transaction History</h3>
+    <ul id="historyList"></ul>
+
+    <p><a href="?item=Laptop" onclick="addTx(event, 'Laptop')">Purchase Laptop</a></p>
+    <p><a href="?item=Headphones" onclick="addTx(event, 'Headphones')">Purchase Headphones</a></p>
+
+<script>
+    // Pure client simulation for static opening (or calls server if running)
+    const urlParams = new URLSearchParams(window.location.search);
+    const item = urlParams.get('item');
+
+    let history = JSON.parse(sessionStorage.getItem("tx_history") || "[]");
+    let prev = localStorage.getItem("lastVisitTime") || "First visit";
+
+    if (item) {
+        history.push("Purchased " + item + " at " + new Date());
+        sessionStorage.setItem("tx_history", JSON.stringify(history));
+    }
+
+    localStorage.setItem("lastVisitTime", Date.now().toString());
+
+    let sessId = sessionStorage.getItem("sess_id");
+    if (!sessId) {
+        sessId = "JSESS_" + Math.random().toString(36).substring(2, 9).toUpperCase();
+        sessionStorage.setItem("sess_id", sessId);
+    }
+
+    document.getElementById("sessId").innerText = sessId;
+    document.getElementById("prevVisit").innerText = prev;
+
+    const ul = document.getElementById("historyList");
+    history.forEach(h => {
+        const li = document.createElement("li");
+        li.innerText = h;
+        ul.appendChild(li);
+    });
+
+    function addTx(e, itemName) {
+        e.preventDefault();
+        history.push("Purchased " + itemName + " at " + new Date());
+        sessionStorage.setItem("tx_history", JSON.stringify(history));
+        const li = document.createElement("li");
+        li.innerText = history[history.length - 1];
+        ul.appendChild(li);
+    }
+</script>
+</body>
+</html>

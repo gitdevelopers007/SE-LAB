@@ -1,0 +1,12 @@
+{
+  "name": "jwt-student-api",
+  "version": "1.0.0",
+  "main": "jwtStudentServer.js",
+  "scripts": {
+    "start": "node jwtStudentServer.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

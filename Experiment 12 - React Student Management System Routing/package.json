@@ -1,0 +1,10 @@
+{
+  "name": "experiment-12-react-student-management",
+  "version": "1.0.0",
+  "description": "Experiment 12 - React Student Management System with Registration, Login, Contact, About pages and Routing",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["react", "routing", "spa", "student-management"]
+}

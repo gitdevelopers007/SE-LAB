@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap Shopping Cart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">BootstrapShop</a>
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link" href="#" onclick="showPage('register')">Register</a>
+            <a class="nav-link" href="#" onclick="showPage('login')">Login</a>
+            <a class="nav-link" href="#" onclick="showPage('products')">Products</a>
+            <a class="nav-link" href="#" onclick="showPage('cart')">Cart (<span id="cartCount">0</span>)</a>
+        </div>
+    </div>
+</nav>
+
+<main class="container py-4">
+
+    <!-- PAGE 1: REGISTRATION -->
+    <div id="registerPage" class="card shadow-sm mx-auto" style="max-width: 450px;">
+        <div class="card-body">
+            <h3 class="card-title mb-3">User Registration</h3>
+            <form onsubmit="handleRegister(event)">
+                <div class="mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input class="form-control" id="regName" required placeholder="Enter full name">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <input class="form-control" id="regEmail" type="email" required placeholder="name@example.com">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input class="form-control" id="regPass" type="password" required placeholder="Create password">
+                </div>
+                <button class="btn btn-primary w-100" type="submit">Register</button>
+            </form>
+            <p class="mt-3 text-center mb-0">Already registered? <a href="#" onclick="showPage('login')">Login here</a></p>
+        </div>
+    </div>
+
+    <!-- PAGE 2: LOGIN -->
+    <div id="loginPage" class="card shadow-sm mx-auto" style="max-width: 450px; display: none;">
+        <div class="card-body">
+            <h3 class="card-title mb-3">User Login</h3>
+            <form onsubmit="handleLogin(event)">
+                <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <input class="form-control" id="loginEmail" type="email" required placeholder="name@example.com">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input class="form-control" id="loginPass" type="password" required placeholder="Enter password">
+                </div>
+                <button class="btn btn-success w-100" type="submit">Login</button>
+            </form>
+            <p class="mt-3 text-center mb-0">Don't have an account? <a href="#" onclick="showPage('register')">Register here</a></p>
+        </div>
+    </div>
+
+    <!-- PAGE 3: PRODUCT CATALOG -->
+    <div id="productsPage" style="display: none;">
+        <h3 class="mb-3">Product Catalog</h3>
+        <div class="row g-3">
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5>Laptop Stand</h5>
+                        <p class="text-muted">Adjustable aluminium stand.</p>
+                        <p class="fw-bold fs-5">₹1500</p>
+                        <button class="btn btn-primary" onclick="addToCart('Laptop Stand', 1500)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5>Wireless Mouse</h5>
+                        <p class="text-muted">Ergonomic bluetooth mouse.</p>
+                        <p class="fw-bold fs-5">₹800</p>
+                        <button class="btn btn-primary" onclick="addToCart('Wireless Mouse', 800)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5>USB-C Fast Cable</h5>
+                        <p class="text-muted">High-speed charging cable.</p>
+                        <p class="fw-bold fs-5">₹300</p>
+                        <button class="btn btn-primary" onclick="addToCart('USB-C Fast Cable', 300)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 4: SHOPPING CART -->
+    <div id="cartPage" class="card shadow-sm mx-auto" style="max-width: 600px; display: none;">
+        <div class="card-body">
+            <h3 class="card-title mb-3">Shopping Cart</h3>
+            <ul class="list-group mb-3" id="cartItemList">
+                <li class="list-group-item text-muted">Your cart is empty.</li>
+            </ul>
+            <h4 class="mb-3" id="totalAmount">Total: ₹0</h4>
+            <button class="btn btn-danger w-100" onclick="handleCheckout()">Checkout</button>
+        </div>
+    </div>
+
+</main>
+
+<script>
+    function showPage(page) {
+        document.getElementById("registerPage").style.display = "none";
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("productsPage").style.display = "none";
+        document.getElementById("cartPage").style.display = "none";
+
+        if (page === "register") document.getElementById("registerPage").style.display = "block";
+        if (page === "login") document.getElementById("loginPage").style.display = "block";
+        if (page === "products") document.getElementById("productsPage").style.display = "block";
+        if (page === "cart") document.getElementById("cartPage").style.display = "block";
+    }
+
+    function handleRegister(e) {
+        e.preventDefault();
+        const name = document.getElementById("regName").value;
+        alert("Registration Successful for " + name + "! Please login.");
+        showPage("login");
+    }
+
+    function handleLogin(e) {
+        e.preventDefault();
+        alert("Login Successful! Welcome to BootstrapShop.");
+        showPage("products");
+    }
+
+    let cart = [];
+
+    function addToCart(name, price) {
+        cart.push({ name, price });
+        alert(name + " added to Cart!");
+        renderCart();
+    }
+
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        renderCart();
+    }
+
+    function renderCart() {
+        const list = document.getElementById("cartItemList");
+        const countSpan = document.getElementById("cartCount");
+        const totalH4 = document.getElementById("totalAmount");
+
+        countSpan.innerText = cart.length;
+
+        if (cart.length === 0) {
+            list.innerHTML = `<li class="list-group-item text-muted">Your cart is empty.</li>`;
+            totalH4.innerText = "Total: ₹0";
+            return;
+        }
+
+        let total = 0;
+        let html = "";
+        cart.forEach((item, index) => {
+            total += item.price;
+            html += `<li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>${item.name} - ₹${item.price}</span>
+                <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${index})">Remove</button>
+            </li>`;
+        });
+
+        list.innerHTML = html;
+        totalH4.innerText = "Total: ₹" + total;
+    }
+
+    function handleCheckout() {
+        if (cart.length === 0) {
+            alert("Your cart is empty! Add products first.");
+            showPage("products");
+            return;
+        }
+        alert("Checkout complete! Thank you for your order.");
+        cart = [];
+        renderCart();
+        showPage("products");
+    }
+</script>
+
+<!--
+================================================================================
+HOW TO RUN EXPERIMENT 2 IN VS CODE:
+1. In VS Code, right-click this file ("index.html") -> "Open with Live Server" (or double click in file explorer).
+2. It opens to Register page. Fill form and click "Register" -> goes to Login page!
+3. Click "Login" -> goes to Products page!
+4. Click "Add to Cart" -> items add to Cart! Click "Cart" to view total & checkout.
+================================================================================
+-->
+
+</body>
+</html>

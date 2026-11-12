@@ -1,0 +1,9 @@
+{
+  "name": "node-core-modules-server",
+  "version": "1.0.0",
+  "description": "HTTP server demonstrating Node.js core modules",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

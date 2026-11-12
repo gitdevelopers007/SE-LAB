@@ -1,0 +1,12 @@
+{
+  "name": "experiment-8-session-tracking",
+  "version": "1.0.0",
+  "description": "Experiment 8 - Session Tracking Mechanisms (Cookies and HTTP Session)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["session", "cookies", "http-session", "transactions"],
+  "author": "",
+  "license": "ISC"
+}

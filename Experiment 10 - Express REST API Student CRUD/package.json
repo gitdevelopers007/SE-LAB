@@ -1,0 +1,11 @@
+{
+  "name": "student-rest-api",
+  "version": "1.0.0",
+  "main": "studentApi.js",
+  "scripts": {
+    "start": "node studentApi.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

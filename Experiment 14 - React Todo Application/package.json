@@ -1,0 +1,19 @@
+{
+  "name": "react-todo-app",
+  "version": "1.0.0",
+  "private": true,
+  "homepage": "https://YOUR-USERNAME.github.io/YOUR-REPOSITORY",
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "5.0.1"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.2.0"
+  }
+}

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ES6 Weather Graph</title>
+    <!-- Chart.js CDN for drawing graph -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 16px;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+        h1 {
+            color: #1e40af;
+            font-size: 24px;
+        }
+        .controls {
+            margin: 15px 0;
+        }
+        input {
+            padding: 8px 12px;
+            margin: 5px 10px 10px 0;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            padding: 9px 16px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #1d4ed8;
+        }
+        #status {
+            white-space: pre-line;
+            background: white;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .chart-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Weather Information and Temperature Graph</h1>
+
+    <div class="controls">
+        <label>City: <input id="city" value="Hyderabad"></label>
+        <label>API Key: <input id="apiKey" type="password" placeholder="OpenWeatherMap API key (optional)"></label>
+        <button id="load">Load Weather</button>
+    </div>
+
+    <p id="status">Loading weather...</p>
+
+    <div class="chart-box">
+        <canvas id="weatherChart"></canvas>
+    </div>
+
+<script src="script.js"></script>
+
+<!--
+================================================================================
+HOW TO RUN EXPERIMENT 4 IN VS CODE:
+1. In VS Code, right-click this file ("index.html") -> "Open with Live Server" (or double-click).
+2. Click "Load Weather" button.
+3. It demonstrates:
+   - Arrow Functions
+   - Callbacks (validating city)
+   - Promises (simulating async delay)
+   - Async / Await (fetching data)
+   - Chart.js (graphical display)
+================================================================================
+-->
+
+</body>
+</html>

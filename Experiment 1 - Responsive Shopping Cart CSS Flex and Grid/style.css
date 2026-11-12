@@ -1,0 +1,100 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f2f2f2;
+}
+
+header {
+    background: navy;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+section {
+    background: white;
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.form-box {
+    display: flex;
+    flex-direction: column;
+    max-width: 350px;
+}
+
+input {
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 15px;
+}
+
+button {
+    padding: 10px 15px;
+    margin-top: 10px;
+    background: navy;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+button:hover {
+    background: #000066;
+}
+
+/* CSS Grid for Product Catalog */
+.products {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.item {
+    background: lightblue;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.item h3 {
+    margin-top: 0;
+}
+
+/* Responsive query for mobile screens */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    .products {
+        grid-template-columns: 1fr;
+    }
+}

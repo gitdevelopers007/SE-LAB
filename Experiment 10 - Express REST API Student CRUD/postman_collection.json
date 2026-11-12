@@ -1,0 +1,108 @@
+{
+  "info": {
+    "_postman_id": "exp10-student-crud-collection-id",
+    "name": "Experiment 10 - Student CRUD REST API",
+    "description": "Postman Collection for Experiment 10: Express.js Student CRUD REST API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Get All Students",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3010/api/students",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3010",
+          "path": ["api", "students"]
+        },
+        "description": "Retrieve the list of all students."
+      },
+      "response": []
+    },
+    {
+      "name": "2. Get Student by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3010/api/students/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3010",
+          "path": ["api", "students", "1"]
+        },
+        "description": "Fetch a single student record by their primary ID."
+      },
+      "response": []
+    },
+    {
+      "name": "3. Create Student (POST)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Vikram Adithya\",\n  \"email\": \"vikram@example.com\",\n  \"course\": \"Artificial Intelligence\",\n  \"grade\": \"A+\",\n  \"gpa\": 9.6\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3010/api/students",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3010",
+          "path": ["api", "students"]
+        },
+        "description": "Create a new student entry in the database."
+      },
+      "response": []
+    },
+    {
+      "name": "4. Update Student (PUT)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Sai Kumar (Updated)\",\n  \"course\": \"Computer Science & Engineering\",\n  \"grade\": \"A+\",\n  \"gpa\": 9.2\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3010/api/students/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3010",
+          "path": ["api", "students", "1"]
+        },
+        "description": "Update existing student information by ID."
+      },
+      "response": []
+    },
+    {
+      "name": "5. Delete Student (DELETE)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3010/api/students/2",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3010",
+          "path": ["api", "students", "2"]
+        },
+        "description": "Delete a student record by ID."
+      },
+      "response": []
+    }
+  ]
+}

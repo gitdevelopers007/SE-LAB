@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Authorized Student Portal</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; background: #f8fafc; color: #1e293b; }
+        .box { max-width: 600px; margin: auto; background: white; padding: 25px; border-radius: 8px; border: 1px solid #cbd5e1; }
+        h1 { margin-top: 0; font-size: 22px; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input { width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box; border: 1px solid #cbd5e1; border-radius: 4px; }
+        button { margin-top: 15px; padding: 10px 18px; background: #2563eb; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #1d4ed8; }
+        .danger { background: #dc2626; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #cbd5e1; padding: 8px 12px; text-align: left; }
+        th { background: #f1f5f9; }
+        .msg { padding: 8px 12px; margin-top: 10px; border-radius: 4px; font-weight: bold; }
+        .msg-ok { background: #dcfce7; color: #15803d; }
+        .msg-err { background: #fee2e2; color: #b91c1c; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h1>Authorized Student Portal</h1>
+
+    <div id="loginSection">
+        <form id="loginForm">
+            <label>Username</label>
+            <input type="text" id="username" value="admin" required>
+            <label>Password</label>
+            <input type="password" id="password" value="admin123" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <div id="portalSection" style="display:none;">
+        <div class="msg msg-ok">Logged in successfully. JWT Token active.</div>
+        <button class="danger" onclick="logout()" style="margin-bottom: 15px;">Logout</button>
+        
+        <h3>Add Student</h3>
+        <form id="addForm">
+            <label>Name</label>
+            <input type="text" id="sName" required>
+            <label>Branch</label>
+            <input type="text" id="sBranch" required>
+            <label>CGPA</label>
+            <input type="number" step="0.1" id="sCgpa" required>
+            <button type="submit">Submit</button>
+        </form>
+
+        <h3>Student Records</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Branch</th>
+                    <th>CGPA</th>
+                </tr>
+            </thead>
+            <tbody id="studentBody"></tbody>
+        </table>
+    </div>
+
+    <div id="statusMessage"></div>
+</div>
+
+<script>
+    let token = localStorage.getItem("jwt_token") || "";
+
+    function checkAuth() {
+        if (token) {
+            document.getElementById("loginSection").style.display = "none";
+            document.getElementById("portalSection").style.display = "block";
+            loadStudents();
+        } else {
+            document.getElementById("loginSection").style.display = "block";
+            document.getElementById("portalSection").style.display = "none";
+        }
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const res = await fetch("/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                username: document.getElementById("username").value,
+                password: document.getElementById("password").value
+            })
+        });
+        const data = await res.json();
+        if (res.ok && data.token) {
+            token = data.token;
+            localStorage.setItem("jwt_token", token);
+            checkAuth();
+        } else {
+            alert(data.message || "Invalid credentials");
+        }
+    });
+
+    function logout() {
+        token = "";
+        localStorage.removeItem("jwt_token");
+        checkAuth();
+    }
+
+    async function loadStudents() {
+        const res = await fetch("/students", {
+            headers: { "Authorization": "Bearer " + token }
+        });
+        const data = await res.json();
+        if (res.ok) {
+            const list = data.data || [];
+            document.getElementById("studentBody").innerHTML = list.map(s => `
+                <tr>
+                    <td>${s.name}</td>
+                    <td>${s.branch}</td>
+                    <td>${s.cgpa}</td>
+                </tr>
+            `).join("");
+        }
+    }
+
+    document.getElementById("addForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const res = await fetch("/students", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+            body: JSON.stringify({
+                name: document.getElementById("sName").value,
+                branch: document.getElementById("sBranch").value,
+                cgpa: parseFloat(document.getElementById("sCgpa").value)
+            })
+        });
+        if (res.ok) {
+            document.getElementById("addForm").reset();
+            loadStudents();
+        }
+    });
+
+    checkAuth();
+</script>
+</body>
+</html>

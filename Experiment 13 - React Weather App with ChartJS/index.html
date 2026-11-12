@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Weather Service</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+function WeatherServiceApp() {
+    const [city, setCity] = useState("Hyderabad");
+    const [apiKey, setApiKey] = useState("");
+    const [message, setMessage] = useState("Sample weather data is shown until an API key is entered.");
+    const [weather, setWeather] = useState({
+        currentTemp: 29.5,
+        labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+        temperatures: [28.0, 29.2, 30.5, 29.0, 29.5]
+    });
+
+    const chartRef = useRef(null);
+    const chartInstance = useRef(null);
+
+    const fetchWeather = async event => {
+        event.preventDefault();
+        if (!apiKey.trim()) {
+            setMessage("Enter an OpenWeatherMap API key to retrieve live forecast data.");
+            return;
+        }
+        try {
+            setMessage("Loading weather information...");
+            const url = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&units=metric&appid=${encodeURIComponent(apiKey)}`;
+            const response = await fetch(url);
+            if (!response.ok) throw new Error("Unable to retrieve weather. Check city and API key.");
+            const data = await response.json();
+            const entries = data.list.slice(0, 5);
+            const temperatures = entries.map(entry => entry.main.temp);
+            setWeather({
+                currentTemp: temperatures[0],
+                labels: entries.map(entry => entry.dt_txt),
+                temperatures
+            });
+            setMessage(`Weather information loaded for ${data.city.name}.`);
+        } catch (error) {
+            setMessage(error.message);
+        }
+    };
+
+    useEffect(() => {
+        if (!chartRef.current) return;
+        if (chartInstance.current) {
+            chartInstance.current.destroy();
+        }
+
+        const ctx = chartRef.current.getContext("2d");
+        chartInstance.current = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: weather.labels,
+                datasets: [{
+                    label: `${city} Temperature (°C)`,
+                    data: weather.temperatures,
+                    borderColor: "#16a34a",
+                    backgroundColor: "rgba(22,163,74,0.15)",
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { title: { display: true, text: "Weather Temperature Trend" } },
+                scales: { y: { title: { display: true, text: "Temperature (°C)" } } }
+            }
+        });
+
+        return () => {
+            if (chartInstance.current) chartInstance.current.destroy();
+        };
+    }, [weather, city]);
+
+    return (
+        <main style={{ maxWidth: 760, margin: "35px auto", padding: 18, fontFamily: "Arial" }}>
+            <h1>Weather Service</h1>
+            <form onSubmit={fetchWeather}>
+                <label>City
+                    <input value={city} onChange={event => setCity(event.target.value)}
+                        required style={{ display: "block", padding: 9, width: "100%", boxBox: "border-box" }} />
+                </label>
+                <label style={{ display: "block", marginTop: 10 }}>OpenWeatherMap API Key
+                    <input value={apiKey} onChange={event => setApiKey(event.target.value)}
+                        type="password" style={{ display: "block", padding: 9, width: "100%", boxBox: "border-box" }} />
+                </label>
+                <button type="submit" style={{ margin: "12px 0", padding: 10, cursor: "pointer" }}>Get Weather</button>
+            </form>
+            <p role="status">{message}</p>
+            <h2>Current Temperature in {city}: {weather.currentTemp.toFixed(1)} °C</h2>
+            <div style={{ position: "relative", height: "300px", width: "100%" }}>
+                <canvas ref={chartRef}></canvas>
+            </div>
+        </main>
+    );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<WeatherServiceApp />);
+</script>
+
+<!--
+================================================================================
+HOW TO RUN EXPERIMENT 13 IN VS CODE:
+1. Open Terminal in VS Code (Ctrl + `).
+2. Run:
+   cd "Experiment 13 - React Weather App with ChartJS"
+   node server.js
+3. Open browser: http://localhost:3013
+(OR right-click this index.html -> "Open with Live Server"!)
+================================================================================
+-->
+
+</body>
+</html>
